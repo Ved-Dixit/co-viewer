@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Co-Viewer Permissions</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; text-align: center; background: #0f172a; color: white; }
+    .card { background: #1e293b; padding: 20px; border-radius: 12px; max-width: 400px; margin: 0 auto; }
+    button { background: #8b5cf6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Camera & Mic Access</h1>
+    <p>Please click the button below and select "Allow" to enable your camera and microphone for Co-Viewer.</p>
+    <button id="request">Enable Access</button>
+    <p id="status"></p>
+  </div>
+  <script src="permissions.js"></script>
+</body>
+</html>

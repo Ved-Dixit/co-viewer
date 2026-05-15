@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Co-Viewer",
+  "version": "1.0",
+  "description": "Zero-Cost Local AI Screen Share & Chat",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "desktopCapture",
+    "sidePanel",
+    "storage",
+    "offscreen",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*.co-viewer.app/*",
+    "wss://*.co-viewer.app/*",
+    "http://localhost:8080/*",
+    "ws://localhost:8080/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "side_panel": {
+    "default_path": "sidepanel/sidepanel.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["offscreen/offscreen.html", "lib/*", "models/*", "config.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' ws://localhost:8080 wss://*.co-viewer.app"
+  }
+}

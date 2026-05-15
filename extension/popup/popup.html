@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Co-Viewer Dashboard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Co-Viewer</div>
+      <div class="status-dot"></div>
+    </header>
+    
+    <main>
+      <h1>Session Control</h1>
+      <p class="subtitle">Share your screen or join a peer.</p>
+      
+      <div class="actions">
+        <button id="createSession" class="btn primary">
+          <span class="icon">📡</span> Create Session
+        </button>
+        <div class="divider"><span>OR</span></div>
+        <div class="input-group">
+          <input type="text" id="sessionCodeInput" placeholder="Enter Session Code" maxlength="6">
+          <button id="joinSession" class="btn secondary">Join</button>
+        </div>
+      </div>
+      
+      <div id="activeSession" class="hidden">
+        <div class="code-card">
+          <label>Your Session Code</label>
+          <div class="code-display">
+            <span id="displayCode">------</span>
+            <button id="copyCode" class="copy-btn">📋</button>
+          </div>
+        </div>
+        <p class="hint">Share this code with your peer to start.</p>
+      </div>
+    </main>
+    
+    <footer>
+      <p>All AI processing is local. 🔒</p>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
