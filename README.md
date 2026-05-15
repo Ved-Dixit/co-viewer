@@ -24,7 +24,10 @@ Built using the latest Chrome **Manifest V3** APIs, it leverages **Gemini Nano**
 
 ## 📦 Installation (Developer Mode)
 
-1. Clone this repository.
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Ved-Dixit/co-viewer.git
+   ```
 2. Open Chrome and navigate to `chrome://extensions/`.
 3. Enable **Developer mode** (toggle in the top-right).
 4. Click **Load unpacked** and select the `extension` folder in this repository.
