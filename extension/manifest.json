@@ -34,7 +34,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["offscreen/offscreen.html", "lib/*", "models/*", "config.js"],
+      "resources": ["offscreen/offscreen.html", "lib/*", "models/*", "config.js", "av-web-app/*"],
       "matches": ["<all_urls>"]
     }
   ],

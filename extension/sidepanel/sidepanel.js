@@ -316,7 +316,7 @@ function stopRecording() {
 if (openAVStudioBtn) {
   openAVStudioBtn.addEventListener('click', () => {
     if (sessionCode) {
-      avPortalIframe.src = `${APP_CONFIG.AV_WEB_APP_URL}?code=${sessionCode}`;
+      avPortalIframe.src = chrome.runtime.getURL(`av-web-app/index.html?code=${sessionCode}`);
       avPortalContainer.classList.remove('hidden');
       addSystemMessage('AV Studio embedded. Turn on Cam/Mic inside the frame.');
     } else {
