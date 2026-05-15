@@ -53,10 +53,13 @@ wss.on('connection', (ws) => {
         break;
 
       case 'chat':
+      case 'remote-action':
         const targetSession = activeSessions.get(code);
         
-        // Persist message to Oracle DB
-        await db.saveMessage(code, ws.role, payload, data.payloadType || 'text');
+        // Persist message to Oracle DB (only for chat)
+        if (type === 'chat') {
+          await db.saveMessage(code, ws.role, payload, data.payloadType || 'text');
+        }
         
         if (targetSession) {
           const targetWs = ws.role === 'host' ? targetSession.guest : targetSession.host;

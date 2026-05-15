@@ -25,8 +25,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   } else if (message.type === 'update-session-code') {
     if (currentSession) currentSession.code = message.code;
+  } else if (message.type === 'execute-remote-action') {
+    handleRemoteAction(message.payload);
   }
 });
+
+async function handleRemoteAction(action) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab) return;
+
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ['remote-handler.js']
+  }).then(() => {
+    chrome.tabs.sendMessage(tab.id, { type: 'remote-action', payload: action });
+  }).catch(err => console.error('Failed to inject remote-handler:', err));
+}
 
 async function createOffscreen() {
   if (await chrome.offscreen.hasDocument()) return;

@@ -289,6 +289,9 @@ audio {
 }
 
 .recap { background: var(--secondary); color: white; }
+.secondary { background: #334155; color: var(--text); }
+.secondary:hover { background: #475569; }
+.control-btn.active { background: var(--primary); color: white; box-shadow: 0 0 10px var(--primary); }
 .danger { background: #334155; color: var(--text-dim); }
 .danger:hover { background: var(--danger); color: white; }
 

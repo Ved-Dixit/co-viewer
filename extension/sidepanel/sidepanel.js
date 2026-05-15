@@ -423,6 +423,49 @@ endSessionBtn.addEventListener('click', () => {
   }
 });
 
+const toggleRemoteBtn = document.getElementById('toggleRemote');
+const remoteVideo = document.getElementById('remoteVideo');
+
+let remoteControlEnabled = false;
+
+toggleRemoteBtn.addEventListener('click', () => {
+  remoteControlEnabled = !remoteControlEnabled;
+  toggleRemoteBtn.textContent = `Remote: ${remoteControlEnabled ? 'ON' : 'Off'}`;
+  toggleRemoteBtn.classList.toggle('active', remoteControlEnabled);
+  
+  if (remoteControlEnabled) {
+    addSystemMessage('Remote Control Enabled. Click on the video to interact.');
+  }
+});
+
+// Capture interaction on the video
+remoteVideo.addEventListener('click', (e) => {
+  if (!remoteControlEnabled || !sessionCode) return;
+
+  const rect = remoteVideo.getBoundingClientRect();
+  const x = (e.clientX - rect.left) / rect.width;
+  const y = (e.clientY - rect.top) / rect.height;
+
+  socket.send(JSON.stringify({
+    type: 'remote-action',
+    code: sessionCode,
+    payload: { action: 'click', x, y }
+  }));
+});
+
+remoteVideo.addEventListener('wheel', (e) => {
+  if (!remoteControlEnabled || !sessionCode) return;
+
+  // Prevent scrolling the sidepanel itself
+  e.preventDefault();
+
+  socket.send(JSON.stringify({
+    type: 'remote-action',
+    code: sessionCode,
+    payload: { action: 'scroll', deltaX: e.deltaX, deltaY: e.deltaY }
+  }));
+}, { passive: false });
+
 // WebRTC Signaling Bridge
 function handleSignal(payload) {
   chrome.runtime.sendMessage({
@@ -437,5 +480,13 @@ function handleSignal(payload) {
 chrome.runtime.onMessage.addListener((message) => {
   if (message.target === 'sidepanel' && message.type === 'signal') {
     socket.send(JSON.stringify({ type: 'signal', code: sessionCode, payload: message.payload }));
+  } else if (message.type === 'remote-action' && message.target === 'sidepanel') {
+    // If we receive a remote action (as host), handle it
+    handleRemoteAction(message.payload);
   }
 });
+
+function handleRemoteAction(action) {
+  // Pass to service worker to inject into active tab
+  chrome.runtime.sendMessage({ type: 'execute-remote-action', payload: action });
+}
